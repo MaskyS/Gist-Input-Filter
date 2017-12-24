@@ -77,7 +77,7 @@ class GistFilterGitHubClientTest extends UnitTestCase {
    *
    * @param array $responses
    *   Collection of responses returned by the client.
-   *		
+   *
    * @return GuzzleClient
    */
   protected function getHttpClient(array $responses = []) {

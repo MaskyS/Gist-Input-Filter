@@ -5,7 +5,7 @@ namespace Drupal\gist_filter;
 use Drupal\Core\Cache\CacheBackendInterface;
 
 /**
- * Implementation of that caches the results of the wrapped 
+ * Implementation of that caches the results of the wrapped
  * GistFilterClientInterface injected.
  */
 class GistFilterCacheDecoratorClient implements GistFilterClientInterface {
