@@ -87,7 +87,7 @@ class GistFilterGitHubClientTest extends UnitTestCase {
    * @param array $responses
    *   Collection of responses returned by the client.
    *
-   * @return @return \Drupal\Core\Http\ClientFactory
+   * @return \Drupal\Core\Http\ClientFactory
    */
   protected function getHttpClient(array $responses = []) {
     if (empty($responses)) {
