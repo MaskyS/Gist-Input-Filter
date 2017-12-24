@@ -57,7 +57,7 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
    * @param \Drupal\Core\Render\RendererInterface $renderer
    * @param \Psr\Log\LoggerInterface $logger
    */
-  public function __construct [$configuration, $plugin_id, $plugin_definition, GistFilterClientInterface $github_client, RendererInterface $renderer, LoggerInterface $logger] {
+  public function __construct (array $configuration, $plugin_id, $plugin_definition, GistFilterClientInterface $github_client, RendererInterface $renderer, LoggerInterface $logger) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->gitHubClient = $github_client;
     $this->renderer = $renderer;
@@ -67,7 +67,7 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
     return new static(
       $configuration,
       $plugin_id,
