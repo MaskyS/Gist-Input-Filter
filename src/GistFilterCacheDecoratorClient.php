@@ -5,21 +5,22 @@ namespace Drupal\gist_filter;
 use Drupal\Core\Cache\CacheBackendInterface;
 
 /**
- * Implementation of that caches the results of the wrapped GistFilterClientInterface injected.
+ * Implementation of that caches the results of the wrapped 
+ * GistFilterClientInterface injected.
  */
 class GistFilterCacheDecoratorClient implements GistFilterClientInterface {
 
   /**
    * Wrapped GistFilterClientInterface implementation.
    *
-   * @var GistFilterClientInterface
+   * @var \Drupal\gist_filter\GistFilterClientInterface
    */
   protected $client;
 
   /**
    * Cache backend.
    *
-   * @var CacheBackendInterface
+   * @var \Drupal\Core\Cache\CacheBackendInterface
    */
   protected $cacheBackend;
 
@@ -33,9 +34,9 @@ class GistFilterCacheDecoratorClient implements GistFilterClientInterface {
   /**
    * Constructor for proxy implementation.
    *
-   * @param GistFilterClientInterface $client
+   * @param \Drupal\gist_filter\GistFilterClientInterface $client
    *   Wrapped client.
-   * @param CacheBackendInterface $cache_backend
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
    *   Cache backend.
    */
   public function __construct(GistFilterClientInterface $client, CacheBackendInterface $cache_backend) {
@@ -44,7 +45,7 @@ class GistFilterCacheDecoratorClient implements GistFilterClientInterface {
   }
 
   /**
-   * @inheritdoc
+   * {@inheritdoc}
    */
   public function getGist($id) {
     // First, try the static cache.

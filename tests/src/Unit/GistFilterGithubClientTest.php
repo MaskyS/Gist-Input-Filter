@@ -77,7 +77,7 @@ class GistFilterGitHubClientTest extends UnitTestCase {
    *
    * @param array $responses
    *   Collection of responses returned by the client.
-   *
+   *		
    * @return GuzzleClient
    */
   protected function getHttpClient(array $responses = []) {
@@ -87,7 +87,7 @@ class GistFilterGitHubClientTest extends UnitTestCase {
 
     $this->mock = new MockHandler($responses);
     $handlerStack = HandlerStack::create($this->mock);
-    $guzzle = new GuzzleClient(array('handler' => $handlerStack));
+    $guzzle = new GuzzleClient(['handler' => $handlerStack]);
 
     return $guzzle;
   }

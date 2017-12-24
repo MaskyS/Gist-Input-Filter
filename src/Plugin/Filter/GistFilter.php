@@ -38,6 +38,8 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
   protected $renderer;
 
   /**
+   * Client used to retrieve gists.
+   *
    * @var \Drupal\gist_filter\GistFilterGitHubClient
    */
   protected $gitHubClient;
@@ -51,11 +53,11 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
    * @param array $configuration
    * @param string $plugin_id
    * @param mixed $plugin_definition
-   * @param GistFilterClientInterface $github_client
-   * @param RendererInterface $renderer
-   * @param LoggerInterface $logger
+   * @param \Drupal\gist_filter\GistFilterClientInterface $github_client
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   * @param \Psr\Log\LoggerInterface $logger
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, GistFilterClientInterface $github_client, RendererInterface $renderer, LoggerInterface $logger) {
+  public function __construct [$configuration, $plugin_id, $plugin_definition, GistFilterClientInterface $github_client, RendererInterface $renderer, LoggerInterface $logger] {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->gitHubClient = $github_client;
     $this->renderer = $renderer;
@@ -65,7 +67,7 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition {
     return new static(
       $configuration,
       $plugin_id,
@@ -81,9 +83,9 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
    */
   public function process($text, $language) {
 
-    $text = preg_replace_callback('@\[gist\:(?<id>[\w/]+)(?:\:(?<file>[\w\.]+))?\]@', array($this, 'gistDisplayEmbed'), $text);
-    $text = preg_replace_callback('@\[gistcode\:(?<id>[\w/]+)(?:\:(?<file>[\w\.]+))?\]@', array($this, 'gistDisplayCode'), $text);
-    $text = preg_replace_callback('@\[gistlink\:(?<id>[\w/]+)(?:\:(?<file>[\w\.]+))?\]@', array($this, 'gistDisplayLink'), $text);
+    $text = preg_replace_callback('@\[gist\:(?<id>[\w/]+)(?:\:(?<file>[\w\.]+))?\]@', [$this, 'gistDisplayEmbed'], $text);
+    $text = preg_replace_callback('@\[gistcode\:(?<id>[\w/]+)(?:\:(?<file>[\w\.]+))?\]@', [$this, 'gistDisplayCode'], $text);
+    $text = preg_replace_callback('@\[gistlink\:(?<id>[\w/]+)(?:\:(?<file>[\w\.]+))?\]@', [$this, 'gistDisplayLink'], $text);
 
     return new FilterProcessResult($text);
   }
@@ -91,15 +93,14 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
-  public function tips($long = true) {
+  public function tips($long = TRUE) {
 
     $output = $this->t('Use <code>[gist:#####]</code> for using the default embed method.', '<br />');
-    $output.= $this->t('You can use <code>[gist:#####]</code> for displaying just the code of your gist, or <code>[gistlink:#####]</code> for displaying the link of your gist.', '<br />');
-    $output.= $this->t('You may also include a specific file within a multi-file gist with <code>[gist:####:my_file]</code>.');
+    $output .= $this->t('You can use <code>[gist:#####]</code> for displaying just the code of your gist, or <code>[gistlink:#####]</code> for displaying the link of your gist.', '<br />');
+    $output .= $this->t('You may also include a specific file within a multi-file gist with <code>[gist:####:my_file]</code>.');
 
     return $output;
   }
-
 
   /**
    * Replace the text with the content of the Gist, wrapped in <pre> tags.
@@ -112,19 +113,19 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
       $build = [];
       // If a file was specified, just render that one file.
       if (isset($matches['file']) && !empty($matches['file']) && isset($data['files'][$matches['file']])) {
-        $build[] = array(
+        $build[] = [
           '#theme' => 'gist_filter_code',
           '#file' => $data['files'][$matches['file']],
-        );
+        ];
 
       }
       // Otherwise, render all files.
       else {
         foreach ($data['files'] as $file) {
-          $build[] = array(
+          $build[] = [
             '#theme' => 'gist_filter_code',
             '#file' => $file,
-          );
+          ];
         }
       }
 
@@ -132,7 +133,7 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
 
     }
     catch (GitHubRequestException $e) {
-      $this->logger->notice('Error retrieving gist %gist: %error', array('%gist' => $matches['id'], '%error' => $e->getMessage()));
+      $this->logger->notice('Error retrieving gist %gist: %error', ['%gist' => $matches['id'], '%error' => $e->getMessage()]);
     }
   }
 
@@ -145,7 +146,10 @@ class GistFilter extends FilterBase implements ContainerFactoryPluginInterface {
       ? $gist_url . '.js?file=' . $matches['file']
       : $gist_url . '.js';
 
-    // Also grab the content and display it in code tags (in case the user does not have JS).
+    /*
+    * Also grab the content and display it in code tags (in case the user does
+    * not have JS).
+    */
     $output = '<noscript>' . $this->gistDisplayCode($matches) . '</noscript>';
     $output .= '<script src="' . $gist_url . '"></script>';
 

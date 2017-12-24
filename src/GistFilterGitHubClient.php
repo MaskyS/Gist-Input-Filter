@@ -6,7 +6,8 @@ use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\RequestException;
 
 /**
- * Implementation of GistFilterClientInterface that requests GitHub api to retrieve a gist.
+ * Implementation of GistFilterClientInterface that requests GitHub api to
+ * retrieve a gist.
  */
 class GistFilterGitHubClient implements GistFilterClientInterface {
 
@@ -36,7 +37,7 @@ class GistFilterGitHubClient implements GistFilterClientInterface {
   public function getGist($id) {
     try {
       $url = 'https://api.github.com/gists/' . $id;
-      $response = $this->httpClient->request('GET', $url, array('headers' => array('Accept' => 'application/json')));
+      $response = $this->httpClient->request('GET', $url, ['headers' => ['Accept' => 'application/json']]);
       $data = (string) $response->getBody();
     }
     catch (RequestException $e) {

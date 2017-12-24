@@ -13,9 +13,9 @@
  * Implements hook_theme().
  */
 function gist_filter_theme() {
-  return array(
-    'gist_filter_code' => array(
-      'variables' => array('file' => array()),
-    ),
-  );
+  return [
+    'gist_filter_code' => [
+      'variables' => ['file' => []],
+    ],
+  ];
 }

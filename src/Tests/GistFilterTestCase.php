@@ -4,7 +4,6 @@ namespace Drupal\gist_filter\Tests;
 
 use Drupal\simpletest\WebTestBase;
 
-
 /**
  * Test the gist_filter module.
  *
@@ -31,10 +30,10 @@ class GistFilterTestCase extends WebTestBase {
     $this->contentType = $this->drupalCreateContentType();
 
     // Create and log in our user.
-    $this->user = $this->drupalCreateUser(array(
+    $this->user = $this->drupalCreateUser([
       'create ' . $this->contentType->id() . ' content',
       'administer filters',
-    ));
+    ]);
     $this->drupalLogin($this->user);
   }
 
@@ -43,16 +42,14 @@ class GistFilterTestCase extends WebTestBase {
    */
   public function testEmbedStyle() {
     // Turn on our input filter and set the option to embed.
-    $edit = array(
-      'filters[gist_filter][status]' => 1,
-    );
+    $edit = ['filters[gist_filter][status]' => 1];
 
     $this->drupalPostForm('admin/config/content/formats/manage/plain_text', $edit, t('Save configuration'));
 
-    $edit = array(
+    $edit = [
       'title[0][value]' => $this->randomMachineName(),
       'body[0][value]' => 'Hello! [gist:865412]',
-    );
+    ];
 
     $this->drupalPostForm('node/add/' . $this->contentType->id(), $edit, t('Save'));
     $this->assertResponse(200);
@@ -66,16 +63,14 @@ class GistFilterTestCase extends WebTestBase {
    */
   public function testEmbedStyleWithFile() {
     // Turn on our input filter and set the option to embed.
-    $edit = array(
-      'filters[gist_filter][status]' => 1,
-    );
+    $edit = ['filters[gist_filter][status]' => 1];
 
     $this->drupalPostForm('admin/config/content/formats/manage/plain_text', $edit, t('Save configuration'));
 
-    $edit = array(
+    $edit = [
       'title[0][value]' => $this->randomMachineName(),
       'body[0][value]' => 'Hello! [gist:865412:php_file.php]',
-    );
+    ];
 
     $this->drupalPostForm('node/add/' . $this->contentType->id(), $edit, t('Save'));
     $this->assertResponse(200);
@@ -90,16 +85,14 @@ class GistFilterTestCase extends WebTestBase {
   public function testLinkStyle() {
 
     // Turn on our input filter and set the option to link.
-    $edit = array(
-      'filters[gist_filter][status]' => 1,
-    );
+    $edit = ['filters[gist_filter][status]' => 1];
 
     $this->drupalPostForm('admin/config/content/formats/manage/plain_text', $edit, t('Save configuration'));
 
-    $edit = array(
+    $edit = [
       'title[0][value]' => $this->randomMachineName(),
       'body[0][value]' => 'Hello! [gistlink:865412]',
-    );
+    ];
 
     $this->drupalPostForm('node/add/' . $this->contentType->id(), $edit, t('Save'));
     $this->assertResponse(200);
@@ -113,16 +106,14 @@ class GistFilterTestCase extends WebTestBase {
   public function testLinkStyleWithFile() {
 
     // Turn on our input filter.
-    $edit = array(
-      'filters[gist_filter][status]' => 1,
-    );
+    $edit = ['filters[gist_filter][status]' => 1];
 
     $this->drupalPostForm('admin/config/content/formats/manage/plain_text', $edit, t('Save configuration'));
 
-    $edit = array(
+    $edit = [
       'title[0][value]' => $this->randomMachineName(),
       'body[0][value]' => 'Hello! [gistlink:865412:php_file.php]',
-    );
+    ];
 
     $this->drupalPostForm('node/add/' . $this->contentType->id(), $edit, t('Save'));
     $this->assertResponse(200);
@@ -136,16 +127,14 @@ class GistFilterTestCase extends WebTestBase {
   public function testCodeTagStyle() {
 
     // Turn on our input filter.
-    $edit = array(
-      'filters[gist_filter][status]' => 1,
-    );
+    $edit = ['filters[gist_filter][status]' => 1];
 
     $this->drupalPostForm('admin/config/content/formats/manage/plain_text', $edit, t('Save configuration'));
 
-    $edit = array(
+    $edit = [
       'title[0][value]' => $this->randomMachineName(),
       'body[0][value]' => 'Hello! [gistcode:865412]',
-    );
+    ];
 
     $this->drupalPostForm('node/add/' . $this->contentType->id(), $edit, t('Save'));
     $this->assertResponse(200);
